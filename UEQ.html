@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UEQ Fragebogen</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #20405E;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        h1, h2 {
+            color: #20405E;
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .question {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            font-weight: bold;
+        }
+        .scale {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+        .scale input[type="radio"] {
+            margin: 0 5px;
+        }
+        .results {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #eaeaea;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #952B27;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        button:hover {
+            background-color: #7c1f1c;
+        }
+        #progressBar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        #progressBarFill {
+            height: 20px;
+            width: 0%;
+            background-color: #20405E;
+            border-radius: 10px;
+            transition: width 0.3s ease-in-out;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+        #startseite {
+            text-align: center;
+        }
+        canvas {
+            max-width: 100%;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="fau-logo.png" alt="FAU Logo">
+        <img src="win-logo.png" alt="WIN Logo">
+    </header>
+
+    <div class="container" id="startseite">
+        <h1>Willkommen zum User Experience Questionnaire (UEQ)</h1>
+        <p>Mit diesem Fragebogen möchten wir Ihre subjektive Einschätzung zur Nutzererfahrung eines Produkts erfassen. Bitte beantworten Sie die folgenden 26 Fragen spontan und ehrlich.</p>
+        <p><strong>Thema der Studie:</strong> KI-Literacy und Algorithm Aversion im Kontext der User Experience</p>
+        <button onclick="starteFragebogen()">Fragebogen starten</button>
+    </div>
+
+    <div class="container" id="fragebogen" style="display:none">
+        <h2>Fragebogen</h2>
+        <div id="progressBar"><div id="progressBarFill"></div></div>
+        <form id="ueqForm">
+            <div id="questionsContainer"></div>
+            <button type="button" id="nextPageBtn" onclick="zeigeNaechsteSeite()">Weiter</button>
+            <button type="button" id="submitBtn" onclick="berechneErgebnisse()" style="display:none;">Auswertung anzeigen</button>
+        </form>
+        <div class="results" id="ergebnisse" style="display: none;">
+            <canvas id="balkendiagramm"></canvas>
+            <canvas id="radardiagramm"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const items = [...]; // gleich wie vorher
+        const dimensionen = {...}; // gleich wie vorher
+
+        let aktuelleSeite = 0;
+        const fragenProSeite = 5;
+
+        function starteFragebogen() {
+            document.getElementById("startseite").style.display = "none";
+            document.getElementById("fragebogen").style.display = "block";
+        }
+
+        function erstelleFragen() {
+            // gleich wie vorher
+        }
+
+        function zeigeNaechsteSeite() {
+            // gleich wie vorher
+        }
+
+        function berechneErgebnisse() {
+            // gleich wie vorher bis Ergebnisse...
+            const daten = {
+                labels: Object.keys(dimensionen),
+                datasets: [{
+                    label: 'Mittelwert pro Dimension',
+                    data: Object.values(dimensionen).map(d => d.sum / d.count),
+                    backgroundColor: '#20405E'
+                }]
+            };
+
+            new Chart(document.getElementById('balkendiagramm'), {
+                type: 'bar',
+                data: daten,
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            new Chart(document.getElementById('radardiagramm'), {
+                type: 'radar',
+                data: daten,
+                options: {
+                    responsive: true,
+                    elements: { line: { borderColor: '#952B27', backgroundColor: 'rgba(149,43,39,0.2)' } }
+                }
+            });
+        }
+
+        function updateProgress() {
+            // gleich wie vorher
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            erstelleFragen();
+            document.getElementById("ueqForm").addEventListener("change", updateProgress);
+        });
+    </script>
+</body>
+</html>
